@@ -8,8 +8,8 @@ class MuteMod(loader.Module):
     async def client_ready(self, client, db): 
         self.db = db 
  
-    async def ЕОcmd(self, message): 
-        """Включить/выключить еблоофф. Используй: .swmute <@ или реплай>.""" 
+    async def еоcmd(self, message): 
+        """Включить/выключить еблоофф. Используй: .ео <@ или реплай>.""" 
         if message.chat: 
             chat = await message.get_chat() 
             if not chat.admin_rights and not chat.creator: 
