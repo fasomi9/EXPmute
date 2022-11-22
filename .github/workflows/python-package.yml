@@ -1,9 +1,97 @@
-from .. import loader, utils  
- 
+import logging
+import re
+import time
+from typing import Any, List
+
+from telethon import TelegramClient
+from telethon.hints import Entity
+from telethon.tl.custom import Message
+from telethon.tl.functions.channels import JoinChannelRequest
+from telethon.utils import get_peer_id
+
+from .. import loader, security, utils
+
+logger = logging.getLogger(__name__)
+
+USER_ID_RE = re.compile(r"^(-100)?\d+$")
+
+
+# pylint: disable=invalid-name
+def s2time(string) -> int:
+    """Parse time from text `string`"""
+    r = {}  # results
+
+    for time_type in ["mon", "w", "d", "h", "m", "s"]:
+        try:
+            r[time_type] = int(re.search(rf"(\d+)\s*{time_type}", string)[1])
+        except TypeError:
+            r[time_type] = 0
+
+    return (
+        r["mon"] * 86400 * 30
+        + r["w"] * 86400 * 7
+        + r["d"] * 86400
+        + r["h"] * 3600
+        + r["m"] * 60
+        + r["s"]
+    )
+
+
+# pylint: disable=consider-using-f-string
+def get_link(user: Entity) -> str:
+    """Return permanent link to `user`"""
+    return "<a href='tg://user?id={id}'>{name}</a>".format(
+        id=user.id,
+        name=utils.escape_html(
+            user.first_name if hasattr(user, "first_name") else user.title
+        ),
+    )
+
+
+def plural_number(n: int) -> str:
+    """Pluralize number `n`"""
+    return (
+        "one"
+        if n % 10 == 1 and n % 100 != 11
+        else "few"
+        if 2 <= n % 10 <= 4 and (n % 100 < 10 or n % 100 >= 20)
+        else "many"
+    )
+
+
+# noinspection PyCallingNonCallable,PyAttributeOutsideInit
+# pylint: disable=not-callable,attribute-defined-outside-init,invalid-name
 @loader.tds 
 class MuteMod(loader.Module): 
-    """Завалишка 0.3.""" 
-    strings = {'name': 'Ebloff'} 
+    """Завалишка 0.4.""" 
+    strings = {
+        "name": "Ebloff",
+        "author": "@shyatzd",
+        "not_group": "🚫 <b>эта команда предназначена для ебальников в группе</b>",
+        "muted": "🔇 <b>сломанное ебало {user} лечение займет {time}</b>",
+        "muted_forever": "🔇 <b> ваш ебальник упал навсегда,мисс {user}</b>",
+        "unmuted": "🔉 <b>{user} после долгого лечения наконец-то говорит </b>",
+        "not_muted": "🚫 <b>This user wasn't muted</b>",
+        "invalid_user": "🚫 <b>проверь, точно ли ту псины ты ввел</b>",
+        "no_mute_target": "🧐 <b>а кому ебальник закрыть то?</b>",
+        "no_unmute_target": "🧐 <b>а кому ебальник открыть то?</b>",
+        "mutes_empty": "😔 <b>в этой группе заебов нет</b>",
+        "muted_users": "📃 <b>в данный момент заебы:</b>\n{names}",
+        "cleared": "🧹 <b>почищены заебы во всех шлюхосборниках </b>",
+        "cleared_all": "🧹 <b> почищены все заебы</b>",
+        "s_one": "second",
+        "s_few": "seconds",
+        "s_many": "seconds",
+        "m_one": "minute",
+        "m_few": "minutes",
+        "m_many": "minutes",
+        "h_one": "hour",
+        "h_few": "hours",
+        "h_many": "hours",
+        "d_one": "day",
+        "d_few": "days",
+        "d_many": "days",
+    }
  
     async def client_ready(self, client, db): 
         self.db = db 
