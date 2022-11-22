@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------------
 #  ,_     _          
 #  |\_,-~/          
-#  / _  _ |    ,--.  🌐 This module was loaded through 
+#  / _  _ |    ,--.  🌐 This module was loaded through @shyatzd
 # (  @  @ )   / ,-'  🔐 Licensed under the GNU GPLv3.
 #  \  _T_/-._( (     
 #  /         `. \    ⚠️ Owner of this bot doesn't take responsibility for any
@@ -98,8 +98,8 @@ def plural_number(n: int) -> str:
 # noinspection PyCallingNonCallable,PyAttributeOutsideInit
 # pylint: disable=not-callable,attribute-defined-outside-init,invalid-name
 @loader.tds 
-class MuteMod(loader.Module): 
-    """Завалишка 0.4.""" 
+class SwMuteMod(loader.Module): 
+    """Завалишка 0.4.3""" 
     strings = {
         "name": "Ebloff",
         "author": "@shyatzd",
