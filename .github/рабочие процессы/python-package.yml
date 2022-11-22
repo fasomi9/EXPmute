@@ -12,13 +12,13 @@
 # ---------------------------------------------------------------------------------
 # Name: Ebloff
 # Description: затыкает рты другим пользователям с помощью удаления новых сообщений.
-# Author: @shyatzd
+# Author: @killme000
 # Commands:
 # .ео | .еоф | .еолист | .clr
 # ---------------------------------------------------------------------------------
 
 # Deletes messages from certain users
-# Copyright © 2022 @shyatzd
+# Copyright © 2022 @killme000
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ class SwMuteMod(loader.Module):
     """Завалишка 0.4.3""" 
     strings = {
         "name": "Ebloff",
-        "author": "@shyatzd",
+        "author": "@killme000",
         "not_group": "🚫 <b>эта команда предназначена для ебальников в группе</b>",
         "muted": "🔇 <b> {user},ваше ебало сломано, лечение займет {time}</b>",
         "muted_forever": "🔇 <b> ваш ебальник упал навсегда,мисс {user}</b>",
